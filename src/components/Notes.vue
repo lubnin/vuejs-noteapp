@@ -1,4 +1,4 @@
-.<template>
+<template>
   <div class="notes">
     <div
       class="note"
@@ -11,8 +11,9 @@
         <p style="cursor; pointer;" @click="removeNote(index)">x</p>
       </div>
       <div class="note-body">
-        <p>{{ note.descr }}</p>
+        <p :class="note.priority">{{ note.descr }}</p>
         <span>{{ note.date }}</span>
+        <span style="float: right">{{ note.priority }}</span>
       </div>
     </div>
   </div>
@@ -32,7 +33,6 @@ export default {
   },
   methods: {
     removeNote(index) {
-      console.log(`Note id - ${index} removed`);
       this.$emit("remove", index);
     },
   },
@@ -99,6 +99,12 @@ export default {
 .note-body {
   p {
     margin: 20px 0;
+    &.high {
+      background: #ffdede;
+    }
+    &.low {
+      background: #f6fad7;
+    }
   }
   span {
     font-size: 14px;

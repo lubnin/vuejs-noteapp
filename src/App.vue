@@ -86,21 +86,37 @@ export default {
       note: {
         title: "",
         descr: "",
+        priority: "standard",
       },
       notes: [
         {
           title: "First Note",
           descr: "Description for first note.",
+          priority: "standard",
           date: new Date(Date.now()).toLocaleString(),
         },
         {
           title: "Second Note",
-          descr: "Description for first note.",
+          descr: "Description for second note.",
+          priority: "standard",
           date: new Date(Date.now()).toLocaleString(),
         },
         {
           title: "Third Note",
-          descr: "Description for first note.",
+          descr: "Description for third note.",
+          priority: "standard",
+          date: new Date(Date.now()).toLocaleString(),
+        },
+        {
+          title: "High priority note",
+          descr: "I am a very high priority note.",
+          priority: "high",
+          date: new Date(Date.now()).toLocaleString(),
+        },
+        {
+          title: "Low priority note",
+          descr: "I am a low priority note.",
+          priority: "low",
           date: new Date(Date.now()).toLocaleString(),
         },
       ],
@@ -108,16 +124,25 @@ export default {
   },
   methods: {
     addNote() {
-      let { title, descr } = this.note;
-
-      if (title === "") {
+      if (this.note.title === "") {
         this.message = "title cant be blank!";
         return false;
       }
-      this.notes.push({ title, descr, date: new Date().toLocaleString() });
+      if (this.note.priority === "") {
+        this.note.priority = "standart";
+      }
+
+      let { title, descr, priority } = this.note;
+      this.notes.push({
+        title,
+        descr,
+        priority,
+        date: new Date().toLocaleString(),
+      });
       this.message = null;
       this.note.title = "";
       this.note.descr = "";
+      this.note.priority = "standard";
     },
     removeNote(index) {
       this.notes.splice(index, 1);
