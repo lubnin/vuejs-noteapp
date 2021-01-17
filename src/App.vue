@@ -6,8 +6,13 @@
           <message v-if="message" :message="message" />
           <new-note :note="note" @add-note="addNote" />
 
-          <div class="note-header">
+          <div class="note-header" style="margin: 25px 0">
             <h1>{{ title }}</h1>
+            <search
+              :value="search"
+              placeholder="Find your note"
+              @search="search = $event"
+            />
             <div class="icons">
               <svg
                 :class="{ active: grid }"
@@ -52,7 +57,7 @@
             </div>
           </div>
 
-          <notes :notes="notes" :grid="grid" @remove="removeNote" />
+          <notes :notes="notesFilter" :grid="grid" @remove="removeNote" />
         </div>
       </section>
     </div>
@@ -63,16 +68,19 @@
 import message from "@/components/Message";
 import newNote from "@/components/NewNote";
 import notes from "@/components/Notes";
+import search from "@/components/Search";
 
 export default {
   components: {
     message,
     newNote,
     notes,
+    search,
   },
   data() {
     return {
       title: "Notes App",
+      search: "",
       message: null,
       grid: true,
       note: {
@@ -113,6 +121,20 @@ export default {
     },
     removeNote(index) {
       this.notes.splice(index, 1);
+    },
+  },
+  computed: {
+    notesFilter() {
+      let array = this.notes,
+        search = this.search;
+      if (!search) return array;
+      search = search.trim().toLowerCase();
+      array = array.filter((item) => {
+        if (item.title.toLowerCase().indexOf(search) !== -1) {
+          return item;
+        }
+      });
+      return array;
     },
   },
 };
